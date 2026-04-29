@@ -1,0 +1,280 @@
+\section{Analytical Framework}\label{sec:analytical}
+Incorporating physiological parameter values,
+we can estimate the relative timescales of the system to infer if it is diffusion limited or not.
+The goal of this is to see if the system is effectively at steady state regarding diffusion of ligands from the capillary wall to the outer cells,
+relative to receptor timescales.
+We model ligand sensing using a system of two coaxial cylinders.
+The inner cylinder maintains a fixed ligand concentration, while the outer cylinder represents a cell membrane bearing discrete absorbing receptors embedded in an otherwise reflecting surface Fig.~\ref{fig:capillary_cells}.
+We first analyze the idealized limit in which receptors act as perfect sinks, and subsequently incorporate receptor binding and unbinding kinetics as an additional resistance, rendering absorption finite.
+
+\subsection{Separation of Time Scales}\label{sec:timescales}
+The validity of the steady-state assumption, $\nabla^{2} C = 0$,
+relies on a clear separation of the characteristic time scales governing diffusion, receptor kinetics, and systemic regulation.
+
+The diffusive relaxation time
+\begin{equation}
+    \tau_{\mathrm{diff}} \approx \frac{(R-a)^{2}}{D} \approx 5 \times 10^{-2}\,\mathrm{s},
+    \label{eq:tau_diff}
+\end{equation}
+corresponds to the rapid establishment of the insulin concentration profile between the capillary and the cell membrane.
+
+The receptor kinetic timescale describes the equilibration of receptor occupancy with the local concentration $C(R)$,
+\begin{equation}
+    \tau_{\mathrm{kin}} = \frac{1}{k_a C(R) + k_b}.
+    \label{eq:tau_kin}
+\end{equation}
+Using $k_a = 3 \times 10^{6}\,\mathrm{M}^{-1}\mathrm{s}^{-1}$, $k_b = 5 \times 10^{-3}\,\mathrm{s}^{-1}$, and physiological insulin levels, this yields $\tau_{\mathrm{kin}} \sim 10^{2}$--$10^{3}$\,s.
+Finally, systemic insulin regulation occurs on a physiological timescale of several minutes, $\tau_{\mathrm{phys}} \sim 5$--$15$\,min.
+Since $\tau_{\mathrm{diff}} \ll \tau_{\mathrm{kin}} \sim \tau_{\mathrm{phys}}$, diffusion is effectively instantaneous, while receptor kinetics evolve on the same scale as physiological insulin variations. The steady-state framework adopted here therefore applies to regimes in which insulin concentrations remain approximately constant for several minutes, such as basal conditions. Rapid transients may transiently violate this assumption and are not considered in this work.
+
+\subsection{Geometric Resistance and Diffusive Capacity}\label{sec:geom_resistance}
+To derive the steady-state flux, we adopt a diffusion-resistance analogy, in which the molecular flux $J$ is expressed as
+\begin{equation}
+    J = \frac{\Delta C}{\Rtot},
+    \label{eq:flux_resistance}
+\end{equation}
+with $\Rtot$ the total effective diffusive resistance. Transport proceeds through two stages in series: diffusion from the source to the outer boundary, and capture by discrete receptors. The total resistance is therefore written as
+\begin{equation}
+    \Rtot = \Rgeom + \Rrec,
+    \label{eq:rtot_geom_rec}
+\end{equation}
+where $\Rgeom$ depends only on the system geometry, and $\Rrec$ encodes receptor number and size.
+For the cylinder-cylinder geometry, the geometric resistance is
+\begin{equation}
+    \Rgeom = \frac{\ln(R/a)}{2\pi H D},
+    \label{eq:rgeom}
+\end{equation}
+while the resistance associated with $N$ absorbing receptors of radius $s$, acting in parallel, is
+\begin{equation}
+    \Rrec = \frac{1}{4 D N s}.
+    \label{eq:rrec}
+\end{equation}
+Combining these resistances in series yields the total flux,
+\begin{equation}
+    J = \frac{\Jmax \, Ns}{\dfrac{\pi H}{2 \ln(R/a)} + Ns}
+    \label{eq:flux_total_BP},
+\end{equation}
+with
+\begin{equation}
+    Jmax = \frac{2\pi H D C_{0}}{\ln(R/a)}
+    \label{eq:flux_max}.
+\end{equation}
+
+This expression is formally identical to the classical Berg-Purcell result, with the sphere radius replaced by the effective geometric length scale $H/(2\ln(R/a))$.
+All dependence on receptor number and size remains unchanged.
+More generally, for a system containing $N$ disk-like perfectly absorbing receptors of radius $s$, the total steady-state flux can be written in the universal form
+\begin{equation}
+    J = \Jmax \, \frac{Ns}{Ns + \pi\,\mathrm{Cap(geom)}},
+    \label{eq:flux_universal}
+\end{equation}
+where $\mathrm{Cap(geom)}$ is a purely geometric quantity characterizing the diffusive capacity of the system [CITE].
+This formulation makes explicit that receptor number and size enter solely through the combination $Ns$, while all geometric information is encoded in the effective capacity.
+
+\subsection{Finite Receptor Kinetics}\label{sec:finite_kinetics}
+To move beyond the idealized assumption of perfectly absorbing receptors, we incorporate finite receptor binding kinetics. Within the diffusion--resistance framework, finite receptor kinetics introduce an additional resistance associated with ligand binding at the receptor surface. The total resistance is written as
+\begin{equation}
+    \Rtot = \Rdiff + \Rrxn,
+    \label{eq:rtot_diff_rxn}
+\end{equation}
+where $\Rdiff$ is the diffusion resistance derived previously, and $\Rrxn$ is the kinetic resistance arising from receptor binding.
+
+For $N$ identical receptors, each with intrinsic association rate $k_a$, the kinetic resistance is
+\begin{equation}
+    \Rrxn = \frac{1}{N k_a},
+    \label{eq:rrxn}
+\end{equation}
+corresponding to $N$ identical resistors acting in parallel. Combining diffusion and reaction resistances in a series yields the total steady-state flux
+\begin{equation}
+    J = \frac{\Jmax \, Ns}{\alpha\pi + Ns + \dfrac{4\pi D \alpha s}{k_a}},
+    \label{eq:flux_finite_kinetics}
+\end{equation}
+where $\alpha = H/(2\ln(R/a))$ is a geometric factor and $\Jmax = 2\pi H D C_{0}/\ln(R/a)$ is the diffusion-limited flux.
+Equation~\eqref{eq:flux_finite_kinetics} reduces to the classical Berg-Purcell result in the limit $k_a \to \infty$, and correctly predicts vanishing flux as $k_a \to 0$.
+
+\subsection{Homogenized boundary condition and effective surface reactivity}\label{sec:homogenized}
+The substrate concentration $C(r,t)$ in the cylinder--cylinder geometry obeys the diffusion equation
+\begin{equation}
+    \frac{\partial C}{\partial t} = D\nabla^{2} C, \qquad a < r < R,
+    \label{eq:diffusion_eq}
+\end{equation}
+with a fixed concentration imposed at the inner cylinder,
+\begin{equation}
+    C(a,t) = C_{0}.
+    \label{eq:inner_bc}
+\end{equation}
+
+The outer cylinder at $r = R$ is sparsely covered by $N \gg 1$ small receptors of radius $s \ll R$, each of which absorbs ligands with finite intrinsic association rate $k_a$, while the remaining surface is reflecting.
+Microscopically, this results in a mixed boundary condition with strong angular heterogeneity.
+Our interest, however, lies in the \textit{total steady-state flux} into the receptor-covered boundary rather than in the local concentration field near individual receptors.
+At steady state, flux conservation requires that the net radial flux through any cylindrical surface be identical.
+This separation of scales allows us to replace the heterogeneous microscopic boundary by a homogenized, radially symmetric Robin boundary condition [CITE],
+\begin{equation}
+    -D \left.\frac{\partial C}{\partial r}\right|_{r=R} = \kastar \, \sigma_{0} \, C(R),
+    \label{eq:robin_bc}
+\end{equation}
+where $\sigma_{0} = N/(2\pi R H)$ is the mean surface density of receptors and $\kastar$ is an effective surface reactivity.
+
+\subsubsection{Derivation of the effective rate constant \texorpdfstring{$\kastar$}{ka*}}\label{sec:keff_derivation}
+The effective reactivity $\kastar$ accounts for both intrinsic receptor kinetics and diffusion-limited access to the receptors.
+It can be derived directly using a resistance-in-series argument.
+Consider a single receptor of radius $s$.
+In the limit of infinite intrinsic association rate ($k_a \to \infty$), the receptor acts as a perfect sink,
+and the diffusion-limited capture rate is as follows
+\begin{equation}
+    k_{D} = 4 D s.
+    \label{eq:kD}
+\end{equation}
+
+For finite $k_a$, diffusion toward the receptor and intrinsic binding at the receptor act as two resistances in series (Collins-Kimball theory).
+The effective association rate for a single receptor is therefore
+\begin{equation}
+    \frac{1}{k_{\mathrm{eff}}} = \frac{1}{4Ds} + \frac{1}{k_a},
+    \label{eq:keff_series}
+\end{equation}
+which yields
+\begin{equation}
+    k_{\mathrm{eff}} = 4Ds \left(1 + \frac{4Ds}{k_a}\right)^{-1}.
+    \label{eq:keff_result}
+\end{equation}
+
+In the homogenized description, the total reaction flux is obtained by multiplying this single-receptor rate by the receptor surface density $\sigma_{0}$.
+Matching to the boundary condition~\eqref{eq:robin_bc} therefore identifies
+\begin{equation}
+    \boxed{\kastar = 4Ds \left(1 + \frac{4Ds}{k_a}\right)^{-1}.}
+    \label{eq:kastar}
+\end{equation}
+
+\subsubsection{Steady-state solution and flux}\label{sec:steady_state}
+At steady state, the diffusion equation with boundary condition~\eqref{eq:robin_bc} admits the radially symmetric solution
+\begin{equation}
+    C(r) = C_{0}\left(1 - \mu \,\frac{\ln(r/a)}{\ln(R/a)}\right),
+    \label{eq:C_profile}
+\end{equation}
+where the dimensionless uptake efficiency is
+\begin{equation}
+    \mu = \frac{\kastar \, \sigma_{0} \, R \, \ln(R/a)}{D + \kastar \, \sigma_{0} \, R \, \ln(R/a)}.
+    \label{eq:mu}
+\end{equation}
+
+The total steady-state flux into the outer boundary is therefore
+\begin{equation}
+    J = \frac{2\pi H D C_{0}}{\ln(R/a)}\,\mu,
+    \label{eq:J_mu}
+\end{equation}
+with
+\begin{equation}
+    \Jmax = \frac{2\pi H D C_{0}}{\ln(R/a)}
+    \label{eq:Jmax_def}
+\end{equation}
+denoting the diffusion-limited flux corresponding to a perfectly absorbing outer cylinder.
+
+\subsubsection{Physical interpretation}\label{sec:interpretation}
+The effective rate constant $\kastar$ encapsulates the combined effects of receptor kinetics and diffusion limitation due to partial surface coverage.
+In the perfect-sink limit $k_a \to \infty$, $\kastar$ reduces to $4Ds$, recovering the diffusion-limited Berg--Purcell result~\eqref{eq:flux_total_BP}.
+For finite $k_a$, the uptake is reduced by the additional reaction resistance, yielding a smooth crossover between reaction-limited and diffusion-limited regimes~\eqref{eq:flux_finite_kinetics}.
+
+\subsection{Receptor kinetics and Michaelis-Menten reduction at steady state}\label{sec:mm_reduction}
+Following ligand binding, receptor--ligand complexes may either dissociate and release the ligand back into the environment or progress to a processed product. Receptor--ligand interactions are modeled using the standard substrate--enzyme reaction scheme
+\begin{equation}
+    S + E \mathrel{\mathop{\rightleftharpoons}^{k_a}_{k_b}} C \xrightarrow{k_c} P + E,
+    \label{eq:mm_scheme}
+\end{equation}
+where $k_a$ is the association rate, $k_b$ the dissociation rate, and $k_c$ the processing (or internalization) rate [CITE].
+Let $\sigma_f$, $\sigma_b$, and $\sigma_0$ denote the surface densities of free, bound, and total receptors, respectively.
+Conservation of receptors implies
+\begin{equation}
+    \sigma_0 = \sigma_f + \sigma_b.
+    \label{eq:receptor_conservation}
+\end{equation}
+
+\subsubsection{Steady-state Michaelis-Menten reduction}\label{sec:mm_ss}
+
+In the long-time stationary regime, receptor occupancy and ligand concentration become time-independent [CITE]. Under these conditions, the surface reaction kinetics must satisfy
+\begin{equation}
+    \kastar \, C(R) \, \sigma_f = (k_b + k_c) \, \sigma_b,
+    \label{eq:mm_ss_eq}
+\end{equation}
+where $\kastar$ is the effective association rate derived in the previous section, incorporating both intrinsic binding kinetics and diffusion-limited access to the receptors.
+
+Solving Eq.~\eqref{eq:mm_ss_eq} together with receptor conservation yields the familiar Michaelis--Menten relations
+\begin{equation}
+    \sigma_f = \frac{\sigma_0 K_d}{C(R) + K_d}, \qquad \sigma_b = \frac{\sigma_0 C(R)}{C(R) + K_d},
+    \label{eq:mm_relations}
+\end{equation}
+with effective dissociation constant
+\begin{equation}
+    K_d = \frac{k_b + k_c}{\kastar}.
+    \label{eq:Kd_eff}
+\end{equation}
+
+Importantly, while the association rate $\kastar$ is diffusion-limited and geometry-dependent, the dissociation and processing rates $k_b$ and $k_c$ are local molecular processes and may therefore be taken directly from experimentally measured values.
+
+\subsubsection{Flux balance at the receptor-bearing boundary}
+\label{sec:flux_balance}
+
+At steady state, the diffusion equation is supplemented by a flux balance condition at the receptor-bearing surface $r = R$, equating the diffusive flux to the net reaction flux,
+\begin{equation}
+    D \left.\frac{\partial C}{\partial r}\right|_{r=R} = \sigma_f \, \kastar \, C(R) - \sigma_b \, k_b.
+    \label{eq:flux_balance}
+\end{equation}
+
+Substituting the Michaelis--Menten expressions~\eqref{eq:mm_relations} into Eq.~\eqref{eq:flux_balance} gives
+\begin{equation}
+    D \left.\frac{\partial C}{\partial r}\right|_{r=R} = \frac{\sigma_0 K_d}{C(R) + K_d}\,\kastar \, C(R) - \frac{\sigma_0 C(R)}{C(R) + K_d}\, k_b.
+    \label{eq:flux_balance_mm}
+\end{equation}
+
+\subsubsection{Coupling to the steady-state concentration profile}
+\label{sec:coupling}
+
+The steady-state concentration profile in the cylindrical geometry is
+\begin{equation}
+    C(r) = C_{0}\left(1 - \mu \,\frac{\ln(r/a)}{\ln(R/a)}\right),
+    \label{eq:C_profile_coupling}
+\end{equation}
+so that
+\begin{equation}
+    C(R) = C_{0}(1 - \mu), \qquad \left.\frac{\partial C}{\partial r}\right|_{r=R} = -\frac{C_{0}\mu}{R\ln(R/a)}.
+    \label{eq:CR_dCdr}
+\end{equation}
+
+Substituting into the flux balance condition yields
+\begin{equation}
+    \frac{D C_{0}}{R \ln(R/a)}\,\mu = \frac{\sigma_0 K_d}{C_{0}(1-\mu) + K_d}\,\kastar C_{0}(1-\mu) - \frac{\sigma_0 C_{0}(1-\mu)}{C_{0}(1-\mu) + K_d}\,k_b.
+    \label{eq:flux_balance_subst}
+\end{equation}
+
+Using $K_d = (k_b + k_c)/\kastar$, this expression simplifies to
+\begin{equation}
+    \frac{D}{R \ln(R/a)}\,\mu = \frac{\sigma_0 k_c (1-\mu)}{C_{0}(1-\mu) + K_d}.
+    \label{eq:mu_implicit}
+\end{equation}
+
+\subsubsection{Solution and total flux}
+\label{sec:solution_flux}
+
+Equation~\eqref{eq:mu_implicit} yields a quadratic equation for $\mu$ with the physically admissible solution
+\begin{equation}
+    \mu = \frac{\dfrac{D(C_{0} + K_d)}{R \ln(R/a)} + \sigma_0 k_c - \sqrt{\left[\dfrac{D(C_{0} + K_d)}{R \ln(R/a)} + \sigma_0 k_c\right]^{2} - 4\dfrac{D C_{0}}{R \ln(R/a)} \sigma_0 k_c}}{2 \dfrac{D C_{0}}{R \ln(R/a)}}.
+    \label{eq:mu_quadratic}
+\end{equation}
+
+We select the smaller root, ensuring $0 < \mu < 1$. In the absence of processing ($k_c \to 0$), this solution correctly yields $\mu \to 0$, corresponding to vanishing net uptake.
+
+The total steady-state flux into the outer boundary is
+\begin{equation}
+    J = D \int_{r=R} \frac{\partial C}{\partial r}\,dS = \mu \Jmax,
+    \label{eq:J_mu_final}
+\end{equation}
+where $\Jmax$ is the diffusion-limited (perfect sink) flux.
+
+Since $\mu < 1$, finite receptor kinetics strictly reduce the uptake relative to the classical Berg--Purcell result,
+\begin{equation}
+    J < J_{\mathrm{BP}}.
+    \label{eq:J_less_JBP}
+\end{equation}
+
+\subsubsection{Consistency with the Berg--Purcell limit}
+\label{sec:consistency_BP}
+
+As a consistency check, we recover the Berg--Purcell result in the perfect-kinetics limit. Taking $k_a \to \infty$ and $k_c \to \infty$ while keeping $k_b$ finite yields $K_d \to 0$ and $\mu \to 1$, recovering the diffusion-limited Berg--Purcell flux.

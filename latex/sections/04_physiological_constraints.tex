@@ -1,0 +1,43 @@
+\section{Physiological constraints on receptor-mediated ligand uptake}\label{sec:physiological}
+Having validated the analytical model against RW simulation, we now use the theory to examine the behavior of the system under physiological conditions.
+Specifically, we substitute representative physiological parameter values into the analytical expressions to assess how ligand uptake depends on receptor abundance and blood concentration $C_{0}$.
+
+\paragraph{Flux efficiency.}
+We focus on the normalized uptake efficiency $\mu = J/\Jmax$ as a function of receptor surface coverage for different ligand concentrations.
+As shown in Fig.~\ref{fig:mu_coverage}, the uptake efficiency at physiological receptor numbers (on the order of $10^{5}$--$10^{6}$ receptors) is significantly below 1.
+For example, at $N \sim 10^{5}$ receptors, $\mu \approx 5 \times 10^{-3}$, indicating that ligand uptake is far from diffusion-limited.
+
+This behavior reflects the fact that insulin receptor kinetics are intrinsically slow, with characteristic rates on the order of $10^{-3}\,\mathrm{s}^{-1}$.
+As a result, uptake is limited primarily by receptor kinetics rather than by diffusive transport to the cell surface.
+In this regime, the steady-state concentration profile remains nearly flat, $C(r) \simeq C_{0}$, consistent with the limit $\mu \ll 1$ in Eq.~\eqref{eq:mu}.
+
+Importantly, at low physiological ligand concentrations ($C_{0} \sim 1$--$100$\,pM), the uptake efficiency is higher and largely concentration-independent, reflecting unsaturated receptor kinetics.
+At higher concentrations, receptor saturation becomes significant, reducing uptake efficiency as an increasing fraction of receptors remains occupied.
+
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][7cm][c]{0.75\textwidth}{\centering \textit{Placeholder for Figure 5: $\mu = J/\Jmax$ vs.\ receptor surface coverage.}}}
+    \caption{\textbf{Normalized ligand uptake flux.} The normalized flux $J/\Jmax$, computed from Eq.~\eqref{eq:mu_quadratic}, is shown as a function of receptor surface coverage on the outer cylinder for different ligand concentrations $C_{0}$. Physiological parameter values are used throughout.}
+    \label{fig:mu_coverage}
+\end{figure}
+
+\paragraph{Receptor occupancy.}
+Beyond the total ligand uptake flux, a key quantity of biological relevance is the receptor occupancy, since intracellular signaling is initiated by ligand-bound (and subsequently phosphorylated) receptors at the cell membrane.
+In particular, downstream signaling pathways that regulate GLUT1 expression are driven by the fraction of occupied receptors rather than by the absolute ligand flux.
+
+To examine this behavior, we compute the steady-state fraction of bound receptors as a function of the ligand concentration in the blood, $C_{0}$, for different total numbers of receptors (Fig.~\ref{fig:occupancy}).
+One might expect that increasing the number of receptors would reduce the occupancy fraction, due to enhanced ligand consumption and a corresponding depletion of ligand near the cell surface.
+
+Surprisingly, we find that the occupancy curves are nearly identical for different receptor abundances.
+This behavior is a direct consequence of the fact that the uptake efficiency $\mu$ is much smaller than unity under physiological conditions.
+As discussed above, when $\mu \ll 1$, ligand depletion at the cell surface is negligible and the local concentration at the receptors satisfies $C(R) \simeq C_{0}$.
+Consequently, receptor occupancy is governed primarily by intrinsic receptor kinetics and depends only weakly on the total number of receptors.
+For physiological insulin concentrations (10--500\,pM), the predicted receptor occupancy ranges from $\sim 0.3\%$ to 15\%.
+Under basal conditions ($C_{0} \approx 50\,\mathrm{pM}$), occupancy is only $\sim 2\%$, indicating that receptors operate far from saturation.
+
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][7cm][c]{0.75\textwidth}{\centering \textit{Placeholder for Figure 6: Bound receptor percentage vs $C_{0}$.}}}
+    \caption{\textbf{Receptor occupancy under physiological conditions.} The steady-state fraction of bound receptors is computed from Eq.~\eqref{eq:mm_relations} as a function of the blood ligand concentration $C_{0}$ for different total receptor numbers. Because ligand depletion at the cell surface is negligible ($\mu \ll 1$), the occupancy curves collapse onto the Michaelis--Menten prediction and are largely independent of receptor abundance.}
+    \label{fig:occupancy}
+\end{figure}

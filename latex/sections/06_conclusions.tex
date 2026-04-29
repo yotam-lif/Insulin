@@ -1,0 +1,44 @@
+\section{Conclusions}\label{sec:conclusions}
+In this work, we derived an analytical expression for ligand uptake that simultaneously incorporates receptor kinetics ($k_a$, $k_b$, $k_c$), system geometry, and receptor abundance (Eq.~\eqref{eq:mu_quadratic}), and validated the theory using three-dimensional random-walk simulations.
+
+A central finding of our analysis is that, under physiological conditions, insulin uptake is \textit{kinetically limited} rather than diffusion-limited.
+In the classical Berg--Purcell regime, sufficiently abundant receptors render uptake insensitive to receptor number, making variability in receptor expression physiologically irrelevant.
+However, insulin receptors are expressed over a wide dynamic range across tissues and disease states, implying that uptake must operate outside this diffusion-limited regime.
+
+Slow dissociation and internalization rates ($k_b$, $k_c$) ensure that once insulin binds, receptors remain occupied for sufficiently long times to initiate downstream signaling.
+At the same time, the association rate ($k_a$) must remain moderate: if binding were too fast, receptors would saturate even at basal insulin levels, eliminating sensitivity to changes in hormone concentration.
+Together, these constraints enforce a kinetically controlled uptake regime in which flux scales with both ligand concentration and receptor abundance.
+
+This kinetic balance preserves insulin as a graded, information-rich endocrine signal rather than a rapidly absorbed metabolite.
+Sensitivity is maintained across physiological concentrations, while receptor saturation and diffusion-limited behavior are avoided, allowing cells to tune their response through both receptor number and ligand availability..
+
+In the physiological regime considered here, receptor occupancy is low, with only $\sim 2\%$ of receptors bound at basal insulin concentrations.
+In this limit, the Michaelis--Menten relation reduces to the linear form
+\begin{equation}
+    \theta \simeq \frac{C\,\Nrec}{K_d},
+    \label{eq:theta_linear}
+\end{equation}
+so that the number of occupied receptors scales linearly with both insulin concentration and receptor abundance.
+At first glance, this appears problematic: receptor expression varies substantially across cells, often by 20\% or more, suggesting comparable variability in the number of activated receptors.
+However, this variability may be biologically inconsequential.
+For example, a 20\% change corresponds to differences on the order of 200 versus 240 occupied receptors, which may fall well below the resolution threshold of downstream signaling pathways.
+
+By contrast, postprandial insulin levels rise by a factor of 5--10, producing changes in receptor activation that are an order of magnitude larger and therefore readily distinguishable by the cell.
+How such differences in receptor activation are integrated and transduced into GLUT transporter production depends on intracellular signaling networks and transcriptional regulation, which lie beyond the scope of the present work.
+Nonetheless, our analysis clarifies the physical and kinetic constraints under which insulin signaling operates, and highlights the role of receptor kinetics in shaping both sensitivity and robustness of hormonal sensing.
+
+Notably, insulin receptor abundance differs by more than an order of magnitude across tissues, ranging from $\sim 10^{4}$ receptors per cell in skeletal muscle to $\sim 10^{6}$ in adipocytes, with hepatocytes occupying an intermediate range [CITE, CITE, CITE].
+Such large differences strongly suggest that insulin signaling is not designed to resolve small ($\sim 10$--$20\%$) variations in receptor number.
+Instead, meaningful changes in cellular response must correspond to order-of-magnitude differences in receptor activation or ligand concentration.
+
+Moreover, if insulin capture were saturated at low receptor numbers or at basal hormone levels, all cell types---regardless of their receptor abundance---would experience similar receptor occupancy and activation.
+This would erase tissue-specific sensitivity and contradict the well-established heterogeneity of insulin responses across tissues.
+The observed order-of-magnitude variation in receptor number therefore provides strong evidence that insulin uptake operates in a kinetically restricted regime, in which receptor occupancy remains low and scales with both ligand concentration and receptor abundance.
+
+Regarding system limitations, we examined constraints on the number of receptors by considering both physical crowding at the cell surface as an upper bound and diffusion-limited efficiency as a lower bound, as described by Eq.~\eqref{eq:flux_total_BP}.
+This analysis yields a permissible range of receptor numbers that is consistent with biologically observed values Eq.~\eqref{eq:N_window}.
+
+We further investigated substrate concentration constraints using the derived receptor-occupancy equilibrium equation, Eq.~\eqref{eq:mu_quadratic}, in the Michaelis--Menten regime.
+By defining a lower bound based on a 10\,\% coefficient of variation between cells, assuming identical amount of receptors between cells and independent binding events of receptros.\ and an upper bound based on receptor occupancy sensitivity, we obtained a concentration range whose lower limit closely matches physiological levels.
+However, the upper bound predicted by the model remains significantly higher, reaching the nanomolar range, whereas physiological concentrations are typically on the order of hundreds of picomolar Eq.~\eqref{eq:C0_mu_independent}.
+This discrepancy indicates that the present model does not yet capture the full complexity of the biological system.

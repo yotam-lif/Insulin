@@ -1,0 +1,48 @@
+\section{Model geometry and approach outline}\label{sec:geometry}
+To model diffusion of insulin from capillary to neighboring cells,
+we introduce a geometry of two concentric cylinders,
+with a constant ligand concentration imposed at the inner cylinder of radius $R_1$ and absorbing insulin receptors distributed on the outer cylinder of radius $R_2$ (figure~\ref{fig:capillary_cells}).
+We specify the associated boundary conditions and replace the heterogeneous receptor distribution with an effective homogenized boundary condition,
+enabling analytical treatment of the diffusion problem.
+We then incorporate receptor binding and unbinding kinetics and, finally, validate the resulting analytical predictions by comparison with stochastic random-walk simulations.
+
+\begin{figure}[H]
+    \centering
+    % Placeholder for Figure 1: 3D representation of the capillary and surrounding cells.
+    \fbox{\parbox[c][6cm][c]{0.8\textwidth}{\centering \textit{Placeholder for Figure 1: 3D representation of the capillary and surrounding cells.}}}
+    \caption{\textbf{3D representation of the capillary and surrounding cells.} The orange disks denote receptors uniformly distributed along the cell membrane.}
+    \label{fig:capillary_cells}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{\textbf{System variables and parameters used in the model.}}
+    \label{tab:parameters}
+    \begin{tabular}{@{}lll@{}}
+        \toprule
+        \textbf{Variable} & \textbf{Value} & \textbf{Description} \\
+        \midrule
+        \multicolumn{3}{@{}l}{\textit{Total body variables}} \\
+        $C_{\mathrm{insulin, blood}}$ & $66\,\mathrm{pM}$ & Blood insulin concentration \\
+        $N_{\mathrm{cells, body}}$ & $2 \times 10^{12}$ & Total number of cells in the body \\
+        $V_{\mathrm{blood}}$ & $5\,\mathrm{L}$ & Total blood volume \\
+        $N_{\mathrm{insulin}}/N_{\mathrm{cells, body}}$ & $\sim 100$ & Insulin molecules per cell \\
+        \multicolumn{3}{@{}l}{\textit{General system variables}} \\
+        $R_{\mathrm{cell}}$ & $5\,\mu\mathrm{m}$ & Cell radius \\
+        $R_{\mathrm{outer\,ring}}$ & $7.5\,\mu\mathrm{m}$ & Cell ring radius \\
+        $R_{\mathrm{capillary}}$ & $5\,\mu\mathrm{m}$ & Capillary radius \\
+        $L_{\mathrm{ring}}$ & $10\,\mu\mathrm{m}$ & Cylinder length \\
+        $A_{\mathrm{ring}}$ & $471\,\mu\mathrm{m}^2$ & Ring surface area \\
+        $N_{\mathrm{cells\,on\,ring}}$ & $\approx 4$ & Cells per ring \\
+        $R_{\mathrm{receptor}}$ & $5\,\mathrm{nm}$ & Receptor radius \\
+        $N_{\mathrm{receptors\,per\,cell}}$ & $10^{4}$ & Receptors per cell \\
+        $\sigma_r$ & $84.9\,\mu\mathrm{m}^{-2}$ & Receptor surface density \\
+        $D_{\mathrm{insulin}}$ & $125\,\mu\mathrm{m}^{2}/\mathrm{s}$ & Diffusion coefficient \\
+        \multicolumn{3}{@{}l}{\textit{Insulin--receptor kinetics}} \\
+        $K_{d, \mathrm{insulin}}$ & $2.7\,\mathrm{nM}$ & Dissociation constant \\
+        $k_a$ & $3 \times 10^{6}\,\mathrm{M}^{-1}\mathrm{s}^{-1}$ & Association (binding) rate [CITE] \\
+        $k_b$ & $4 \times 10^{-3}\,\mathrm{s}^{-1}$ & Dissociation (unbinding) rate [CITE] \\
+        $k_c$ & $4 \times 10^{-3}\,\mathrm{s}^{-1}$ & Internalization rate [CITE] \\
+        \bottomrule
+    \end{tabular}
+\end{table}

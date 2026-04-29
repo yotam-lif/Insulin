@@ -1,0 +1,168 @@
+\section{System constrains}\label{sec:constraints}
+Now after we set the stage of our analytical equations of the system, we can start to get into conclusions about the system variables constrains.
+
+\subsection{Constraint on Blood Insulin Concentration}\label{sec:blood_constraint}
+
+\subsubsection{Lower bound on blood insulin concentration}\label{sec:lower_bound}
+The minimum insulin concentration in the blood is constrained by the requirement that different cells reliably sense the hormone through receptor-mediated binding.
+This reliability is limited by stochastic fluctuations in receptor occupancy across cells.
+
+Receptor occupancy is described by the Michaelis--Menten relation,
+\begin{equation}
+    \theta = \frac{C(R)}{C(R) + K_d},
+    \label{eq:theta_mm}
+\end{equation}
+where $\theta = \sigma_b / \sigma_0$ is the fraction of occupied receptors, $C(R)$ is the local insulin concentration at the cell surface, and $K_d$ is the effective dissociation constant defined in Eq.~\eqref{eq:Kd_eff}.
+
+Assuming that the system is in steady state and that receptors act independently, each receptor undergoes a two-state binding--unbinding process with stationary occupancy probability $\theta$.
+Consistent with the low receptor occupancy predicted under physiological basal conditions (typically $\theta \sim 2\%$), competition between receptors for ligand may be negligible, and receptor states may be treated as statistically independent.
+Under these conditions, the instantaneous number of occupied receptors on a given cell follows a binomial distribution,
+\begin{equation}
+    N_b \sim \mathrm{Binomial}(\Nrec, \theta),
+    \label{eq:binomial}
+\end{equation}
+where $\theta$ is given by the Michaelis--Menten relation.
+
+The resulting coefficient of variation (CV) of receptor occupancy is
+\begin{equation}
+    \mathrm{CV} = \frac{\sqrt{\mathrm{Var}(N_b)}}{\langle N_b \rangle} = \sqrt{\frac{1 - \theta}{\Nrec \,\theta}}.
+    \label{eq:CV}
+\end{equation}
+
+To ensure reliable sensing across cells, we impose the criterion $\mathrm{CV} < 0.1$, which yields the lower bound
+\begin{equation}
+    \theta > \frac{1}{1 + 0.01\,\Nrec}.
+    \label{eq:theta_lower}
+\end{equation}
+
+Using the Michaelis--Menten equation, this condition translates into a constraint on the local insulin concentration,
+\begin{equation}
+    C(R) > \frac{100\,K_d}{\Nrec}.
+    \label{eq:CR_lower}
+\end{equation}
+
+The local concentration $C(R)$ is related to the blood insulin concentration $C_{0}$ through the homogenized diffusion model derived above (Eq.~\eqref{eq:C_profile_coupling}), where the effective absorption parameter $\mu$ is determined by receptor kinetics and geometry (Eq.~\eqref{eq:mu_quadratic}).
+Combining these results yields a lower bound on the blood insulin concentration,
+\begin{equation}
+    C_{0} > \frac{100\,K_d}{(1 - \mu)\,\Nrec}.
+    \label{eq:C0_lower}
+\end{equation}
+
+Equation~\eqref{eq:C0_lower} provides a quantitative link between systemic insulin levels and the microscopic parameters governing receptor kinetics, spatial geometry, and sensing noise, and thus defines the minimal hormone concentration required for reliable cellular detection.
+
+\subsubsection{Upper bound on blood insulin concentration}\label{sec:upper_bound}
+An upper bound on the insulin concentration is imposed by the requirement that receptors do not become saturated.
+At high occupancy, receptor-mediated sensing loses sensitivity, as the Michaelis--Menten response flattens and changes in ligand concentration no longer produce appreciable changes in receptor occupancy.
+
+According to the Michaelis--Menten kinetics equation, sensitivity begins to decline once receptor occupancy exceeds approximately 50\%.
+\begin{equation}
+    \theta = \frac{C(R)}{C(R) + K_d} < \frac{1}{2},
+    \label{eq:theta_upper}
+\end{equation}
+which implies
+\begin{equation}
+    C(R) < K_d.
+    \label{eq:CR_upper}
+\end{equation}
+
+Relating the local surface concentration to the blood concentration via the diffusion model derived above, $C(R) = C_{0}(1 - \mu)$, we obtain the upper bound
+\begin{equation}
+    C_{0} < \frac{K_d}{1 - \mu}.
+    \label{eq:C0_upper}
+\end{equation}
+
+Combining this constraint with the lower bound imposed by receptor occupancy noise (Eq.~\eqref{eq:C0_lower}), we find that the physiologically allowable insulin concentration lies within the window
+\begin{equation}
+    \frac{100\,K_d}{(1 - \mu)\,\Nrec} < C_{0} < \frac{K_d}{1 - \mu}.
+    \label{eq:C0_window}
+\end{equation}
+
+Because $\mu$ depends on the ligand concentration $C_{0}$, we isolate $C_{0}$ from the inequality.
+Doing so yields a $\mu$-independent upper bound on the admissible concentration,
+\begin{equation}
+    \frac{100\,K_d}{\Nrec} + \frac{100\,\sigma_0 k_c R \ln(R/a)}{D(\Nrec + 100)} < C_{0} < K_d + \frac{\sigma_0 k_c R \ln(R/a)}{2 D}.
+    \label{eq:C0_mu_independent}
+\end{equation}
+
+Equation~\eqref{eq:C0_mu_independent} defines a finite dynamic range for systemic insulin concentration, determined jointly by receptor quantity, kinetics, transport geometry, and the requirement of reliable cellular sensing.
+
+\subsection{Constraints on Receptor Number}\label{sec:receptor_constraints}
+When formulating constraints on receptor abundance, we seek bounds that are \textit{independent} of the ambient insulin concentration $C_{0}$.
+The goal is to choose a receptor number that remains relevant across conditions (ensuring reliable capture), while avoiding excessive membrane crowding and steric interference that would violate the independent-receptor assumption.
+
+\subsubsection{Minimum constraint}\label{sec:min_constraint}
+A natural lower bound is obtained by requiring that uptake operates at or above a prescribed fraction of the maximal possible flux,
+\begin{equation}
+    \frac{J}{\Jmax} \ge \left(\frac{J}{\Jmax}\right)_{\min}, \qquad 0 < \left(\frac{J}{\Jmax}\right)_{\min} < 1.
+    \label{eq:flux_min}
+\end{equation}
+
+In principle, one could enforce the constraint~\eqref{eq:flux_min} using the full finite-kinetics expression for the flux (Eq.~\eqref{eq:J_mu_final}).
+However, this would yield a receptor-number constraint that depends explicitly on the ligand concentration $C_{0}$ and on receptor kinetic parameters.
+To obtain a conservative and \textit{concentration-independent} bound, we instead evaluate~\eqref{eq:flux_min} in the diffusion-limited (Berg--Purcell) regime, Eq.~\eqref{eq:flux_total_BP}.
+
+This choice isolates the purely diffusive accessibility of receptors and provides a minimal requirement on receptor number that is independent of binding kinetics.
+Physically, this bound ensures that ligand molecules can reach the receptor-bearing surface at a sufficient rate, irrespective of downstream reaction processes.
+Incorporating finite receptor kinetics can only reduce the uptake efficiency and therefore increase the required number of receptors.
+
+Substituting the Berg--Purcell form and solving for $N$ yields the conservative bound
+\begin{equation}
+    N \;\ge\; \frac{\left(\dfrac{J}{\Jmax}\right)_{\min}}{1 - \left(\dfrac{J}{\Jmax}\right)_{\min}}\,\frac{\pi H}{2 s \ln(R/a)}, \qquad 0 < \left(\frac{J}{\Jmax}\right)_{\min} < 1.
+    \label{eq:N_min}
+\end{equation}
+
+\subsubsection{Upper bound on receptor density}\label{sec:receptor_upper}
+An upper bound on receptor abundance is set by steric crowding on the cell membrane.
+Let $\varepsilon$ denote the typical spacing between neighboring receptors.
+When this spacing becomes comparable to twice the receptor radius, $\varepsilon \lesssim 2 R_{\mathrm{rec}}$, receptors physically contact each other, lose lateral mobility, and the independent-receptor approximation breaks down.
+
+Approximating receptors as uniformly distributed over the cylinder surface area $\Acyl$, the mean spacing scales as
+\begin{equation}
+    \varepsilon \sim \sqrt{\frac{\Acyl}{\Nrec}}.
+    \label{eq:epsilon}
+\end{equation}
+
+Requiring $\varepsilon > 2 R_{\mathrm{rec}}$ yields the steric constraint
+\begin{equation}
+    \Nrec < \frac{\Acyl}{4 R_{\mathrm{rec}}^{2}}.
+    \label{eq:N_steric}
+\end{equation}
+
+Importantly, receptors do not occupy the membrane in isolation.
+The human genome encodes on the order of $10^{3}$--$10^{4}$ surface proteins involved in cell--cell and cell--environment interactions, with a typical cell expressing a few hundred distinct membrane protein types [CITE].
+As a rough but conservative estimate, we take
+\begin{equation}
+    \Nsurf \simeq 100
+    \label{eq:Nsurf}
+\end{equation}
+distinct surface protein species sharing the available membrane area.
+Assuming comparable surface coverage among these species, the maximal allowable number of receptors of a given type is reduced to
+\begin{equation}
+    \Nrec < \frac{\Acyl}{4 \Nsurf R_{\mathrm{rec}}^{2}} = \frac{\Acyl}{1200\,R_{\mathrm{rec}}^{2}}.
+    \label{eq:N_upper}
+\end{equation}
+
+This bound is necessarily approximate, but it provides a physically motivated upper limit on receptor abundance that is independent of ligand concentration.
+
+Collecting the steric upper bound and the functional lower bound, the admissible receptor number is constrained to the interval
+\begin{equation}
+    \frac{\left(\dfrac{J}{\Jmax}\right)_{\min}}{1 - \left(\dfrac{J}{\Jmax}\right)_{\min}}\,\frac{\pi H}{2 s \ln(R/a)} \;\le\; N \;<\; \frac{\Acyl}{1200\,R_{\mathrm{rec}}^{2}}.
+    \label{eq:N_window}
+\end{equation}
+
+\subsubsection{Numerical values}\label{sec:numerical_values}
+Substituting representative physiological parameters into Eq.~\eqref{eq:N_window} and requiring a minimum relative flux $(J/\Jmax)_{\min} = 0.7$, we obtain the following numerical design window for the number of receptors:
+\begin{equation}
+    1.8 \times 10^{4} \;\lesssim\; N \;\lesssim\; 4.7 \times 10^{4}.
+    \label{eq:N_numerical}
+\end{equation}
+
+This range suggests a characteristic receptor abundance of order $N \sim 3 \times 10^{4}$.
+
+Using this representative value, together with the physiological parameters listed in Table~\ref{tab:parameters}, in the concentration bounds derived above, we obtain the corresponding admissible window for the insulin concentration,
+\begin{equation}
+    14.75\,\mathrm{pM} \;\lesssim\; C_{0} \;\lesssim\; 2.7\,\mathrm{nM}.
+    \label{eq:C0_numerical}
+\end{equation}
+
+Notably, the lower bound is of the same order of magnitude as the lower end of physiological insulin levels in healthy individuals, while the upper bound is of the same order as concentrations reported under hyperinsulinemic conditions [CITE].

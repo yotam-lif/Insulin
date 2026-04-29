@@ -1,0 +1,87 @@
+\section{Rapid relaxation induced by particle respawning at the system boundary}\label{sec:appendix}
+In the stochastic simulations, particles absorbed at the outer boundary are respawned at the inner boundary in order to enforce flux conservation and maintain a stationary concentration profile.
+Here, we provide a simple analytical argument demonstrating that this respawning mechanism not only produces the correct steady state, but also accelerates relaxation toward it.
+
+To this end, we consider a one-dimensional diffusion problem on the interval $0 \le x \le L$,
+\begin{equation}
+    \frac{\partial c}{\partial t} = D \frac{\partial^{2} c}{\partial x^{2}}, \qquad c(0,t) = 0,
+    \label{eq:1D_diff}
+\end{equation}
+and decompose the concentration into a steady-state profile and a transient deviation,
+\begin{equation}
+    c(x,t) = c_{\mathrm{st}}(x) + u(x,t).
+    \label{eq:decomposition}
+\end{equation}
+
+The deviation $u(x,t)$ satisfies
+\begin{equation}
+    \frac{\partial u}{\partial t} = D \frac{\partial^{2} u}{\partial x^{2}}, \qquad u(0,t) = 0,
+    \label{eq:u_eq}
+\end{equation}
+together with a boundary condition at $x = L$ that depends on how absorbed particles are handled.
+
+\subsection{Case 1: Dirichlet boundary condition}\label{sec:case1}
+If the concentration is fixed at the outer boundary, $c(L,t) = c_{0}$, then the deviation satisfies
+\begin{equation}
+    u(L,t) = 0.
+    \label{eq:bc_dirichlet}
+\end{equation}
+
+Using separation of variables, $u(x,t) = X(x) T(t)$, the spatial eigenvalue problem becomes
+\begin{equation}
+    X'' + k^{2} X = 0, \qquad X(0) = X(L) = 0,
+    \label{eq:eigen_dirichlet}
+\end{equation}
+with eigenfunctions $X_{n}(x) = \sin(k_{n} x)$ and eigenvalues
+\begin{equation}
+    k_{n} = \frac{n\pi}{L}, \qquad n = 1, 2, \ldots
+    \label{eq:kn_dirichlet}
+\end{equation}
+
+The slowest decaying mode corresponds to $n = 1$, yielding a relaxation time
+\begin{equation}
+    \tau_{1} = \frac{1}{D(\pi/L)^{2}} = \frac{L^{2}}{\pi^{2} D}.
+    \label{eq:tau1}
+\end{equation}
+
+\subsection{Case 2: Slope-matching boundary condition}\label{sec:case2}
+In the respawning scheme used in the simulations, flux conservation is enforced by requiring that the diffusive flux entering the system at $x = 0$ matches the flux leaving at $x = L$.
+This corresponds to a slope-matching condition,
+\begin{equation}
+    \left.\frac{\partial c}{\partial x}\right|_{x=0} = \left.\frac{\partial c}{\partial x}\right|_{x=L},
+    \label{eq:slope_match}
+\end{equation}
+which implies for the deviation
+\begin{equation}
+    \left.\frac{\partial u}{\partial x}\right|_{x=0} = \left.\frac{\partial u}{\partial x}\right|_{x=L}.
+    \label{eq:slope_match_u}
+\end{equation}
+
+The spatial eigenvalue problem now becomes
+\begin{equation}
+    X'' + k^{2} X = 0, \qquad X(0) = 0, \qquad X'(0) = X'(L),
+    \label{eq:eigen_slope}
+\end{equation}
+with solutions $X_{n}(x) = \sin(k_{n} x)$ and eigenvalues determined by
+\begin{equation}
+    \cos(k_{n} L) = 1 \implies k_{n} = \frac{2\pi n}{L}, \qquad n = 1, 2, \ldots
+    \label{eq:kn_slope}
+\end{equation}
+
+The slowest decaying mode corresponds to $n = 1$, yielding a relaxation time
+\begin{equation}
+    \tau_{2} = \frac{1}{D(2\pi/L)^{2}} = \frac{L^{2}}{4\pi^{2} D}.
+    \label{eq:tau2}
+\end{equation}
+
+\subsection{Comparison and implication}\label{sec:comparison}
+Comparing the two relaxation times,
+\begin{equation}
+    \tau_{2} = \frac{1}{4}\tau_{1},
+    \label{eq:tau_ratio}
+\end{equation}
+we find that the slope-matching (respawning) boundary condition leads to relaxation that is four times faster than the standard Dirichlet boundary condition.
+This acceleration arises because the lowest admissible spatial mode has twice the wavenumber, resulting in steeper gradients and faster diffusive decay.
+
+This analysis demonstrates that respawning absorbed particles at the system boundary not only preserves the correct steady-state concentration profile, but also significantly enhances convergence toward that steady state.
+As a result, the respawning scheme provides an efficient and well-controlled method for enforcing stationarity in stochastic diffusion simulations.

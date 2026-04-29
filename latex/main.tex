@@ -1,0 +1,58 @@
+\documentclass{article}
+
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{bm}
+
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0}
+}
+
+% Custom commands for consistency
+\newcommand{\Rgeom}{R_{\mathrm{geom}}}
+\newcommand{\Rrec}{R_{\mathrm{rec}}}
+\newcommand{\Rtot}{R_{\mathrm{tot}}}
+\newcommand{\Rdiff}{R_{\mathrm{diff}}}
+\newcommand{\Rrxn}{R_{\mathrm{rxn}}}
+\newcommand{\Jmax}{J_{\mathrm{max}}}
+\newcommand{\kastar}{k_a^{*}}
+\newcommand{\Nrec}{N_{\mathrm{rec}}}
+\newcommand{\Nsurf}{N_{\mathrm{surf}}}
+\newcommand{\Acyl}{A_{\mathrm{cylinder}}}
+
+\title{Microscale Chemoreception in a Cylinder--Cylinder Model}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+We investigate how cells in human tissues sense hormones, specifically insulin, through chemoreception.
+This process spans multiple spatial scales, from whole-body insulin production and clearance to the microscopic dynamics of individual cells and their receptors.
+In this work, we focus on the microscale and model a simplified system in which tissue cells surround a single blood capillary.
+Our aim is to understand how geometry, receptor number, local insulin concentration, and binding--unbinding kinetics together determine the flux of insulin into cells, and whether this sensing operates near an optimal regime.
+\end{abstract}
+
+\input{sections/01_model_geometry}
+\input{sections/02_analytical_framework}
+\input{sections/03_random_walk}
+\input{sections/04_physiological_constraints}
+\input{sections/05_system_constraints}
+\input{sections/06_conclusions}
+
+\appendix
+\section*{Appendix}
+\addcontentsline{toc}{section}{Appendix}
+\input{sections/A_appendix}
+
+\input{sections/references}
+
+\end{document}

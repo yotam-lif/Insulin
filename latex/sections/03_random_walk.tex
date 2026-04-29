@@ -1,0 +1,125 @@
+\section{Three-dimensional random-walk simulations}\label{sec:rw}
+We performed three-dimensional random-walk (RW) simulations to model ligand diffusion in a coaxial cylinder--cylinder geometry.
+The simulations were used both to validate the numerical scheme against known analytical results and to investigate systems with discrete absorbing patches on the outer cylinder surface, representing membrane receptors with finite kinetics.
+
+\paragraph{Geometry.}
+The system consists of an inner reflecting cylinder of radius $a$ and length $H$, coaxially enclosed by an outer cylinder of radius $R$ and the same length $H$.
+Approximately $N \simeq 10^{4}$ particles are initialized uniformly within the annular volume $a \le r \le R$, $|z| \le H/2$.
+
+\paragraph{Particle dynamics.}
+Each particle undergoes Brownian motion with time step $\Delta t$, taking independent Gaussian-distributed displacements with standard deviation
+\begin{equation}
+    \sigma = \sqrt{2 D \Delta t},
+    \label{eq:brownian_step}
+\end{equation}
+where $D$ is the diffusion coefficient.
+The time step $\Delta t$ is chosen sufficiently small to resolve encounters with receptor patches and ensure numerical stability.
+
+\paragraph{Boundary conditions.}
+The inner cylinder ($r = a$) is reflecting and acts as a source that maintains a constant concentration $C_{0}$.
+The outer cylinder ($r = R$) is reflecting except for discrete circular patches of radius $s$, which represent receptors.
+
+In the \textit{steady-state} simulations, particles absorbed or processed at the outer boundary are immediately reintroduced at the inner cylinder to enforce flux conservation, $J_{R} = J_{a}$, thereby maintaining a stationary concentration profile (see Appendix~\ref{sec:appendix} for a proof of rapid convergence).
+
+In the \textit{transient regime}, particles that reach an absorbing boundary are permanently removed from the system.
+
+\paragraph{Receptor kinetics.}
+When a diffusing particle intersects a receptor patch, binding occurs stochastically rather than deterministically.
+Let $s$ denote the patch radius and $A_{\mathrm{patch}} = \pi s^{2}$ its area.
+We define the surface reactivity $\kappa = k_a / A_{\mathrm{patch}}$, where $k_a$ is the intrinsic association rate.
+Following Erban and Chapman [CITE], the probability of binding during a time step $\Delta t$ is
+\begin{equation}
+    p_{\mathrm{bind}} = \frac{\kappa \sqrt{\pi \Delta t / D}}{1 + \tfrac{1}{2} \kappa \sqrt{\pi \Delta t / D}}.
+    \label{eq:p_bind}
+\end{equation}
+
+This expression accounts for short-time diffusive recollisions and ensures convergence to the correct macroscopic reaction rate as $\Delta t \to 0$.
+
+Once bound, both the particle and the receptor are frozen.
+The bound complex dissociates or is internalized with probabilities
+\begin{equation}
+    p_{\mathrm{unbind}} = 1 - e^{-k_b \Delta t}, \qquad p_{\mathrm{int}} = 1 - e^{-k_c \Delta t},
+    \label{eq:p_unbind_int}
+\end{equation}
+corresponding to exponentially distributed waiting times with rates $k_b$ and $k_c$, respectively.
+Upon dissociation, the particle is released a distance $O(s)$ from the patch on the outer cylinder, while internalized particles are reintroduced near the inner cylinder, modeling ligand processing and recycling Fig.~\ref{fig:rw_schematic}.
+
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][7cm][c]{0.8\textwidth}{\centering \textit{Placeholder for Figure 2: Schematic of the random-walk simulation.}}}
+    \caption{\textbf{Schematic of the random-walk simulation.} The annular domain is divided into four panels illustrating the key dynamical processes. \textbf{Top left:} diffusing particles undergoing specular reflection from the inner and outer boundaries. \textbf{Top right:} particle--receptor encounters at the outer boundary, resulting in either binding (absorption) or reflection with a finite binding probability. \textbf{Bottom left:} respawning of particles near the inner boundary following receptor-mediated internalization. \textbf{Bottom right:} respawning of particles near receptor sites after ligand dissociation (release).}
+    \label{fig:rw_schematic}
+\end{figure}
+
+\subsection{Validation against analytical results}\label{sec:rw_validation}
+All simulations in this section were performed with a fixed outer cylinder radius $R = 7.5$, diffusion coefficient $D = 1$, and cylinder length $H = 10$.
+The integration time step was set to $\Delta t = 10^{-6}$.
+
+\subsubsection{Steady-state flux to a fully absorbing cylinder .}\label{sec:rw_absorbing}
+
+\paragraph{Radial concentration profile.}
+We first verified the simulation by measuring the steady-state radial concentration profile.
+The domain was partitioned into thin cylindrical shells, and the particle density was computed as a function of radius.
+The measured profile closely followed the analytical solution of the diffusion equation, providing an additional consistency check Fig.~\ref{fig:rw_validation}a.
+
+\paragraph{Particles absorption flux}
+We further considered the simplest case in which the outer cylinder is perfectly absorbing.
+Simulations were performed while varying the inner radius $a$, and the resulting steady-state flux was compared to the analytical Smoluchowski solution
+\begin{equation}
+    J_{\mathrm{cyl}} = \frac{2\pi H D C_{0}}{\ln(R/a)}.
+    \label{eq:J_cyl}
+\end{equation}
+
+The numerical and analytical results showed good agreement Fig.~\ref{fig:rw_validation}b.
+Small deviations were observed only for short simulation times or insufficient particle numbers and vanished upon increasing both, confirming the correctness of the implementation.
+
+\subsubsection{Perfectly Absorbing Patches on the Outer Cylinder}\label{sec:rw_patches}
+To probe more realistic receptor geometries, we next considered an outer cylinder that is reflecting except for $N$ small absorbing patches of radius $s$, uniformly distributed over its surface.
+We focus on the regime where $s \ll R$.
+In this limit, the normalized flux is expected to obey the Berg--Purcell equation~\eqref{eq:flux_total_BP}
+\begin{equation}
+    \frac{J}{\Jmax} = \frac{Ns}{Ns + \dfrac{\pi H}{2 \ln(R/a)}}, \qquad \Jmax = \frac{2\pi H D C_{0}}{\ln(R/a)}.
+    \label{eq:J_patches_normalized}
+\end{equation}
+
+In these simulations, the receptor radius was fixed at $s = 0.1$, while the number of receptors $N$ was varied.
+The normalized flux $J/\Jmax$ was computed and compared to the corresponding analytical prediction.
+Across the explored parameter range, the numerical results show strong quantitative agreement with theory, demonstrating that the random-walk framework accurately captures diffusion-limited transport to discrete receptors in cylindrical geometries Fig.~\ref{fig:rw_validation}c.
+
+\subsubsection{Transient state}\label{sec:rw_transient}
+To validate the model and quantify the temporal evolution of the system, we monitored the total number of particles remaining in the domain as a function of time.
+These results were compared with the analytical solution obtained numerically from Eq.~\eqref{eq:diffusion_eq}.
+We examined the transient dynamics in two system configurations: (i) a fully absorbing outer cylinder, and (ii) a reflecting outer cylinder containing 5000 discrete perfect absorbing patches of radius $0.05$.
+In both cases, the simulation results exhibit excellent quantitative agreement with the corresponding analytical predictions Fig.~\ref{fig:rw_validation}d.
+
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][10cm][c]{0.85\textwidth}{\centering \textit{Placeholder for Figure 3: Validation of the cylinder-in-cylinder random-walk framework (4 panels: a, b, c, d).}}}
+    \caption{\textbf{Validation of the cylinder-in-cylinder random-walk framework.} (A) Steady-state concentration profile for fully absorbing cylinder, Orange dots denote steady-state concentrations measured in shell segments from 3D RW simulations, while the solid blue line shows the analytical solution for a fully absorbing outer cylinder. (B) Steady-state flux for fully absorbing cylinder, expressed as an effective rate constant $k$, obtained from RW simulations (orange) compared with the analytical prediction (blue). (C) Steady-state flux of a system with patches on the outer cylinder compared for to the Berg--Purcell prediction for the cylindrical geometry~\eqref{eq:flux_total_BP}. (D) Transient survival probability for fully absorbing (Dirichlet) and partially absorbing (Robin) outer boundaries, showing slower decay for absorbing patches with excellent agreement between theory and simulation.}
+    \label{fig:rw_validation}
+\end{figure}
+
+\subsubsection{Steady state with receptor kinetics}\label{sec:rw_kinetics}
+After validating the random-walk simulation against analytical results for perfectly absorbing receptor patches, we progressively extended the model to incorporate finite receptor kinetics, as described above.
+As in the analytical development, complexity was introduced incrementally, enabling systematic, stage-by-stage comparison between simulation and theory.
+
+Validation was performed by comparing the normalized uptake flux $J/\Jmax$ (which is the effective absorption parameter $\mu$ calculated analytically in the simulations, with $\mu$ calculated analytically by Eqs.~\eqref{eq:mu_quadratic} and~\eqref{eq:J_mu_final}.
+
+We first introduced a finite processing rate $k_c$, such that a particle captured by a receptor remains bound until release with probability $1 - \exp(-k_c \Delta t)$.
+The resulting steady-state flux exhibited excellent agreement with the analytical predictions Fig.~\ref{fig:rw_kinetics}a.
+
+Next, we incorporated a finite dissociation rate $k_b$, allowing bound particles to be released back into the medium at a distance of order the patch radius $s$ from the receptor.
+This modification preserved quantitative agreement with the analytical solution, confirming that the release protocol accurately captures the effects of receptor unbinding Fig.~\ref{fig:rw_kinetics}b.
+
+Finally, we introduced a finite association rate $k_a$, implemented via the stochastic binding rule described above.
+Even in the fully kinetic regime with finite $k_a$, $k_b$, and $k_c$, the simulated uptake flux remained in excellent agreement with the analytical theory Fig.~\ref{fig:rw_kinetics}c.
+
+Together, these results provide strong validation of both the analytical framework---specifically the homogenized boundary condition and the expression for the uptake efficiency $\mu$---and the stochastic simulation scheme.
+Beyond validating the theory, the simulation framework offers additional flexibility for exploring regimes and mechanisms that are analytically intractable, making it a useful tool for future extensions of the model.
+
+\begin{figure}[H]
+    \centering
+    \fbox{\parbox[c][12cm][c]{0.8\textwidth}{\centering \textit{Placeholder for Figure 4: Validation of the random walk simulation against the analytical theory for receptor kinetics uptake (3 panels: a, b, c).}}}
+    \caption{\textbf{Validation of the random walk simulation against the analytical theory for receptor kinetics uptake.} Random-walk simulation results (symbols) are compared with analytical predictions from Eqs.~\eqref{eq:mu_quadratic} and~\eqref{eq:J_mu_final} (dashed lines). (a) Finite processing rate $k_c$ with perfectly absorbing receptors ($k_a \to \infty$, $k_b = 0$). (b) Addition of finite dissociation rate $k_b$, with particles released at a distance of order the receptor radius. (c) Fully kinetic receptors with finite association, dissociation, and processing rates. In all cases, excellent agreement is observed without adjustable parameters, validating both the homogenized boundary condition and the stochastic kinetic scheme.}
+    \label{fig:rw_kinetics}
+\end{figure}
